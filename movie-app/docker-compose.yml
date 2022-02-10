@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+    dev:
+        container_name: movie_api_dev
+        image: movie-api-dev:1.0.0
+        build:
+            context: .
+            target: development
+            dockerfile: ./Dockerfile
+        command: npm run start:debug
+        ports:
+            - 3001:3001
+            - 9229:9229
+        networks:
+            - movie-network
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules
+        restart: unless-stopped
+        environment:
+            SECRET_KEY: ${SECRET_KEY}
+
+networks:
+    movie-network:
